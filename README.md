@@ -20,8 +20,11 @@
   ```npm run develop```
   
   ## Usage
+
+  If you do not wish to install the site locally, feel free to use the Heroku site available here: [Link to Heroku Site](https://dry-cove-68996-10d0ffad8a66.herokuapp.com/)
  
  Here is a helpful video to demonstrate how to use the website: [Click This Link](https://drive.google.com/file/d/1nkFJOImZTrrcodnh0Ew9JeWANgWjMUdu/view)
+
   
  ## License
  ![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)
