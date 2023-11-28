@@ -6,48 +6,57 @@ import LoginForm from './LoginForm';
 
 import Auth from '../utils/auth';
 
+// Define the AppNavbar component
 const AppNavbar = () => {
-  // set modal display state
+  // Set modal display state
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
+     {/* Navigation bar */}
       <Navbar bg='dark' variant='dark' expand='lg'>
         <Container fluid>
+          {/* Brand link */}
           <Navbar.Brand as={Link} to='/'>
             Google Books Search
           </Navbar.Brand>
           <Navbar.Toggle aria-controls='navbar' />
+          {/* Navbar links */}
           <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
             <Nav className='ml-auto d-flex'>
+              {/* Link to search for books */}
               <Nav.Link as={Link} to='/'>
                 Search For Books
               </Nav.Link>
-              {/* if user is logged in show saved books and logout */}
+              {/* Conditional rendering based on user login status */}
               {Auth.loggedIn() ? (
                 <>
+                  {/* Link to see saved books */}
                   <Nav.Link as={Link} to='/saved'>
                     See Your Books
                   </Nav.Link>
+                  {/* Logout link */}
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                 </>
               ) : (
+                // Link to open login/signup modal for guests
                 <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
               )}
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {/* set modal data up */}
+      {/* Modal setup */}
       <Modal
         size='lg'
         show={showModal}
         onHide={() => setShowModal(false)}
         aria-labelledby='signup-modal'>
-        {/* tab container to do either signup or login component */}
+        {/* Tab container for signup and login */}
         <Tab.Container defaultActiveKey='login'>
           <Modal.Header closeButton>
             <Modal.Title id='signup-modal'>
+               {/* Tabs for login and signup */}
               <Nav variant='pills'>
                 <Nav.Item>
                   <Nav.Link eventKey='login'>Login</Nav.Link>
@@ -60,6 +69,7 @@ const AppNavbar = () => {
           </Modal.Header>
           <Modal.Body>
             <Tab.Content>
+              {/* Login and signup forms */}
               <Tab.Pane eventKey='login'>
                 <LoginForm handleModalClose={() => setShowModal(false)} />
               </Tab.Pane>
@@ -74,4 +84,5 @@ const AppNavbar = () => {
   );
 };
 
+// Export the AppNavbar component
 export default AppNavbar;

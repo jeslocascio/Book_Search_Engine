@@ -5,42 +5,51 @@ import { REMOVE_BOOK } from "../utils/mutations";
 import Auth from "../utils/auth";
 import { removeBookId } from "../utils/localStorage";
 
+// Define the SavedBooks component
 const SavedBooks = () => {
+  // Fetch user data with useQuery hook
   const { loading, data } = useQuery(GET_ME);
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
 
+  // Extract user data from the response
   const userData = data?.me || {};
 
-  // create function that accepts the book's mongo _id value as param and deletes the book from the database
+  // Function to delete a book by its ID
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
+    // Check if user is logged in
     if (!token) {
       return false;
     }
 
     try {
+      // Remove book mutation
       const { data } = await removeBook({ variables: { bookId }})
       console.log(data);
-      // upon success, remove book's id from localStorage
+      // Remove book's ID from localStorage upon successful deletion
       removeBookId(bookId);
     } catch (err) {
       console.error(err);
     }
   };
 
-  // if data isn't here yet, say so
+  // Display a loading message if data is still loading
   if (loading) {
     return <h2>LOADING...</h2>;
   }
 
+  // Render the SavedBooks component
   return (
     <>
+      {/* Header section */}
       <div fluid className="text-light bg-dark p-5">
         <Container>
           <h1>Viewing saved books!</h1>
         </Container>
       </div>
+
+      {/* Main section */}
       <Container>
         <h2 className="pt-5">
           {userData.savedBooks.length
@@ -49,11 +58,13 @@ const SavedBooks = () => {
               }:`
             : "You have no saved books!"}
         </h2>
+        {/* Display saved books as cards */}
         <Row>
           {userData.savedBooks.map((book) => {
             return (
               <Col md="4" key={book.bookId}>
                 <Card border="dark">
+                  {/* Display book details */}
                   {book.image ? (
                     <Card.Img
                       src={book.image}
@@ -65,6 +76,7 @@ const SavedBooks = () => {
                     <Card.Title>{book.title}</Card.Title>
                     <p className="small">Authors: {book.authors}</p>
                     <Card.Text>{book.description}</Card.Text>
+                    {/* Button to delete a book */}
                     <Button
                       className="btn-block btn-danger"
                       onClick={() => handleDeleteBook(book.bookId)}
@@ -82,4 +94,5 @@ const SavedBooks = () => {
   );
 };
 
+// Export the SavedBooks component
 export default SavedBooks;
