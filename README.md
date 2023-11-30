@@ -18,6 +18,10 @@
   ```npm i```
 
   ```npm run develop```
+
+  If your site booted up correctly, you should see a page that looks like this:
+
+  ![Base site for Book Search Engine](/assets/Base_Site.png)
   
   ## Usage
 
